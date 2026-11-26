@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
-from fastapi import FastApi, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query
 import storage
 from models import Created, SessionIn, SessionOut, SubjectIn, SubjectOut, TodayOut
 from stats import best_streak, current_streak, minutes_per_day, study_day
