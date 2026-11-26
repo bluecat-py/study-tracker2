@@ -1,17 +1,20 @@
 import sqlite3
 from contextlib import contextmanager
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
+
+from stats import study_day
 
 BASE_DIR = Path(__file__).parent
 DB_FILE = BASE_DIR / "study_tracker.db"
 SCHEMA_FILE = BASE_DIR / "schema.sql"
 
+
 @contextmanager
 def connect():
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
+    conn.execute("PRAGMA foreign_keys = ON") 
     try:
         yield conn
         conn.commit()
@@ -20,9 +23,9 @@ def connect():
         raise
     finally:
         conn.close()
-    
+
+
 def init_db():
-    #create the table if it hasn't exist yet
     with connect() as conn:
         conn.executescript(SCHEMA_FILE.read_text())
 
@@ -30,8 +33,7 @@ def init_db():
 #SUBJECTS
 
 def add_subject(name: str) -> int:
-    #add a subject and return its id
-    name = name.strip()
+    name = name.strip() 
     if not name:
         raise ValueError("Subject name cannot be empty.")
     try:
@@ -41,8 +43,8 @@ def add_subject(name: str) -> int:
     except sqlite3.IntegrityError:
         raise ValueError(f"Subject '{name}' already exists.") from None
 
+
 def list_subjects(include_archived: bool = False) -> list[dict]:
-    """Return subjects as a list of dicts, sorted by name."""
     sql = "SELECT id, name, archived FROM subjects"
     if not include_archived:
         sql += " WHERE archived = 0"
@@ -64,7 +66,12 @@ def add_session(
     if not isinstance(minutes, int) or minutes <= 0:
         raise ValueError("Minutes must be a whole number above 0.")
     if day is None:
-        day = date.today().isoformat()
+        day = study_day(datetime.now()).isoformat()
+    else:
+        try:
+            day = date.fromisoformat(day).isoformat()
+        except (TypeError, ValueError):
+            raise ValueError("Date must look like YYYY-MM-DD.") from None
     try:
         with connect() as conn:
             cursor = conn.execute(
@@ -75,6 +82,7 @@ def add_session(
             return cursor.lastrowid
     except sqlite3.IntegrityError:
         raise ValueError("Could not save the session. Check that the subject exists.") from None
+
 
 def list_sessions(limit: int | None = None) -> list[dict]:
     sql = """

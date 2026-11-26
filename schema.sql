@@ -17,4 +17,3 @@ CREATE TABLE IF NOT EXISTS sessions (
                CHECK (source IN ('manual', 'timer')),
     note       TEXT
 );
-
