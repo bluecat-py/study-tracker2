@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
-from fastapi import FastApi, HTTPException. Query
+from fastapi import FastApi, HTTPException, Query
 import storage
 from models import Created, SessionIn, SessionOut, SubjectIn, SubjectOut, TodayOut
 from stats import best_streak, current_streak, minutes_per_day, study_day
@@ -26,8 +26,8 @@ def create_subject(payload: SubjectIn):
     try:
         subject_id = storage.add_subject(payload.name)
     except ValueError as error:
-        raise HTTPException(status_code_400, detail=str(error)) from None
-        return {"id:" subject_id, "name": payload.name, "archived": False}
+        raise HTTPException(status_code=400, detail=str(error)) from None
+        return {"id": subject_id, "name": payload.name, "archived": False}
 
 #SESSIONS
 @app.get("/api/sessions", response_model=list[SessionOut])
@@ -42,9 +42,9 @@ def create_session(payload: SessionIn):
         day = None
     try:
         session_id = storage.add_session(payload.subject_id, payload.minutes, day=day, note=payload.note)
-        except ValueError as error:
-            raise HTTPException(status_code=400, detail=str(error)) from None
-            return {"id": session_id}
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from None
+    return {"id": session_id}
 
 #TODAY
 @app.get("/api/today", response_model=TodayOut)

@@ -14,14 +14,14 @@ def minutes_per_day(sessions: list[dict]) -> dict[date, int]:
     return totals
 
 def streak_days(sessions: list[dict], min_minutes: int = STREAK_MIN_MINUTES) -> set[date]:
-    return {day for day, minutes in minutes_per_day(sessions).items() if minutes >= min_mintes}
+    return {day for day, minutes in minutes_per_day(sessions).items() if minutes >= min_minutes}
 
 def current_streak(
     sessions: list[dict],
     today: date,
     min_minutes: int = STREAK_MIN_MINUTES,
 ) -> int:
-    days = steak_days(sessions, min_minutes)
+    days = streak_days(sessions, min_minutes)
     day = today if today in days else today - timedelta(days=1)
     streak = 0
     while day in days:

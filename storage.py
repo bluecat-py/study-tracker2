@@ -60,7 +60,7 @@ def add_session(
     if not isinstance(minutes, int) or minutes <= 0:
         raise ValueError("Minutes must be a whole number above 0.")
     if day is None:
-        day = study_day(datetim.now()).isoformat()
+        day = study_day(datetime.now()).isoformat()
     else:
         try:
             day = date.fromisoformat(day).isoformat()
@@ -74,27 +74,26 @@ def add_session(
                 (subject_id, minutes, day, started_at, source, note),
             )
             return cursor.lastrowid
-        except sqlite3.IntegrityError:
-            raise ValueError("Could not save the session. Check that the subject exists.") from None
+    except sqlite3.IntegrityError:
+        raise ValueError("Could not save the session. Check that the subject exists.") from None
     
-sql = """
-    SELECT sessions.id, subjects.name AS subject, sessions.minutes,
-            sessions.date, sessions.source, sessions.note
-    FROM sessions
-    JOIN subjects ON subjects.id = sessions.subject_id
-    ORDER BY sessions.date DESC, sessions.id DESC
-"""
-params = ()
-if limit is not None:
-    sql += " LIMIT ?"
-    params = (limit,)
-with connect() as conn:
-    return [dict(row) for row in conn.execute(sql, params)]
+def list_sessions(limit: int | None = None) -> list[dict]:
+    sql = """
+        SELECT sessions.id, subjects.name AS subject, sessions.minutes,
+               sessions.date, sessions.source, sessions.note
+        FROM sessions
+        JOIN subjects ON subjects.id = sessions.subject_id
+        ORDER BY sessions.date DESC, sessions.id DESC
+    """
+    params = ()
+    if limit is not None:
+        sql += " LIMIT ?"
+        params = (limit,)
+    with connect() as conn:
+        return [dict(row) for row in conn.execute(sql, params)]
 
 
 
 
 
 
-
-    

@@ -15,7 +15,7 @@ class SessionIn(BaseModel):
 
 #OUTGOING
 class SubjectOut(BaseModel):
-    id: str
+    id: int
     name: str
     archived: bool
 
