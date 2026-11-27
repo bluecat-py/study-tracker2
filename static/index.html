@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html land="en">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
-        <div class=""app>
+        <div class="app">
 
             <aside class="sidebar">
                 <div class="brand">study<br> tracker</div>
@@ -28,7 +28,7 @@
                 <p class="sidebar-date" id="study-day"></p>
             </aside>
             <main class="main">
-                <p id="load-error" class="bannder" role="alert" hidden></p>
+                <p id="load-error" class="banner" role="alert" hidden></p>
 
                 <!--   TODAY   -->
                 <section id="view-today" class="view" aria-labelledby="greeting">
@@ -56,7 +56,7 @@
                             <div class="pair">
                                 <article class="card card-goal" aria-labelledby="goal-title">
                                     <svg class="deco deco-rings" viewBox="0 0 160 160" aria-hidden="true">
-                                        <circle cx="80" r="30"/><circle cx="80" cy="80" r="55"/><circle cx="80" cy="80" r="80"/>
+                                        <circle cx="80" cy="80" r="30"/><circle cx="80" cy="80" r="55"/><circle cx="80" cy="80" r="80"/>
                                     </svg>
                                     <h2 id="goal-title" class="card-title">Today's goal</h2>
                                     <p class="goal-figure">
@@ -75,14 +75,62 @@
                                 <div id="week-bars" class="week-bars" role="img"></div>
                             </article>
                         </div>
-                        <article class="card card-subject" aria-labelledby="subjects-title">
+                        <article class="card card-subjects" aria-labelledby="subject-title">
                             <svg class="deco deco-tri" viewBox="0 0 160 160" aria-hidden="true">
                                 <path d="M80 14 L150 138 Q155 148 144 148 L16 148 Q5 148 10 138 Z"/>
                             </svg>
                             <h2 id="subject-title" class="card-title">By subject</h2>
                             <ul id="subject-list" class="subject-list"></ul>
-                            <p id="subject-empty" class="card-note" hidde>Log a session and your subjects show up here</p>
+                            <p id="subject-empty" class="card-note" hidden>Log a session and your subjects show up here</p>
                         </article>
+                    </div>
+
+                    <div class="rail">
+                        <form id="log-form" class="card card-form" novalidate>
+                            <h2 class="card-title">Log study time</h2>
+
+                            <fieldset class="field">
+                                <legend>Subject</legend>
+                                <div id="chips" class="chips"></div>
+                                <div id="new-subject" class="new-subject" hidden>
+                                    <label class="sr-only" for="new-subject-name">New subject name</label>
+                                    <input id="new-subject-name" class="input" type="text" maxlength="60" autocomplete="off" placeholder="New subject name">
+                                </div>
+                            </fieldset>
+
+                            <div class="field">
+                                <label for="minutes">Minutes</label>
+                                <input id="minutes" class="input" type="number" inputmode="numeric" min="1" max="1440" placeholder="45">
+                                <div class="presets" role="group" aria-label="Quick amounts">
+                                    <button type="button" class="preset" data-minutes="15">15</button>
+                                    <button type="button" class="preset" data-minutes="25">25</button>
+                                    <button type="button" class="preset" data-minutes="45">45</button>
+                                    <button type="button" class="preset" data-minutes="60">60</button>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="note">Note <span class="optional">(optional)</span></label>
+                                <input id="note" class="input" type="text" maxlength="500" autocomplete="off" placeholder="What did you work on?">
+                            </div>
+
+                            <details class="more">
+                                <summary>Studied on another day?</summary>
+                                <div class="field">
+                                    <label for="day">Day</label>
+                                    <input id="day" class="input" type="date">
+                                </div>
+                            </details>
+
+                            <p id="form-error" class="form-error" role="alert"></p>
+                            <button id="submit" class="btn-primary" type="submit">Log session</button>
+                        </form>
+
+                        <section class="card card-today" aria-labelledby="today-title">
+                            <h2 id="today-title" class="card-title">Logged today</h2>
+                            <ul id="today-list" class="session-list"></ul>
+                            <p id="today-empty" class="card-note" hidden>Nothing logged yet today.</p>
+                        </section>
                     </div>
                 </section>
             </main>
