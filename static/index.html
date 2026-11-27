@@ -56,11 +56,33 @@
                             <div class="pair">
                                 <article class="card card-goal" aria-labelledby="goal-title">
                                     <svg class="deco deco-rings" viewBox="0 0 160 160" aria-hidden="true">
-                                        <circle cx="80" r="30"/><circle cx="80" cy="80" r="55"/>
+                                        <circle cx="80" r="30"/><circle cx="80" cy="80" r="55"/><circle cx="80" cy="80" r="80"/>
                                     </svg>
+                                    <h2 id="goal-title" class="card-title">Today's goal</h2>
+                                    <p class="goal-figure">
+                                        <span id="goal-done" class="goal-done">0m</span>
+                                        <span id="goal-of" class="goal-of"></span>
+                                    </p>
+                                    <div id="goal-bar" class="bar" role="progressbar" aria-labelledby="goal-title" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                        <span id="goal-fill"></span>
+                                    </div>
+                                    <p id="goal-note" class="card-note"></p>
                                 </article>
                             </div>
+
+                            <article class="card card-week" aria-labelledby="week-title">
+                                <h2 id="week-title" class="card-title">Last 7 days</h2>
+                                <div id="week-bars" class="week-bars" role="img"></div>
+                            </article>
                         </div>
+                        <article class="card card-subject" aria-labelledby="subjects-title">
+                            <svg class="deco deco-tri" viewBox="0 0 160 160" aria-hidden="true">
+                                <path d="M80 14 L150 138 Q155 148 144 148 L16 148 Q5 148 10 138 Z"/>
+                            </svg>
+                            <h2 id="subject-title" class="card-title">By subject</h2>
+                            <ul id="subject-list" class="subject-list"></ul>
+                            <p id="subject-empty" class="card-note" hidde>Log a session and your subjects show up here</p>
+                        </article>
                     </div>
                 </section>
             </main>
