@@ -1,11 +1,19 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
+from pathlib import Path
+
+
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import staticFiles
+
+
 import storage
 from models import Created, SessionIn, SessionOut, SubjectIn, SubjectOut, TodayOut
 from stats import best_streak, current_streak, minutes_per_day, study_day
 
 DAILY_GOAL_MINUTES = 60 #Setting
+STATIC_DIR = Path(__file__).parent / "static"
 
 
 @asynccontextmanager
@@ -27,8 +35,8 @@ def create_subject(payload: SubjectIn):
         subject_id = storage.add_subject(payload.name)
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error)) from None
-        return {"id": subject_id, "name": payload.name, "archived": False}
-
+    return {"id": subject_id, "name": payload.name, "archived": False}
+    
 #SESSIONS
 @app.get("/api/sessions", response_model=list[SessionOut])
 def get_sessions(limit: int | None = Query(default=None, ge=1, le=500)):
@@ -55,6 +63,14 @@ def get_today():
         "date": today.isoformat(),
         "minutes_today": minutes_per_day(sessions).get(today, 0),
         "daily_goal": DAILY_GOAL_MINUTES,
+        "streak_min_minutes": STREAK_MIN_MINUTES,
         "current_streak": current_streak(sessions, today),
         "best_streak": best_streak(sessions),
     }
+
+#UI
+@app.get("/", include_in_schema=False)
+def index():
+    return FileResponse(STATIC_DIR / "index.html")
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR,) name="static")

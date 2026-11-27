@@ -34,5 +34,6 @@ class TodayOut(BaseModel):
     date: str
     minutes_today: int
     daily_goal: int
+    current_min_minutes: int
     current_streak: int
     best_streak: int

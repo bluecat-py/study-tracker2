@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html land="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Study Tracker</title>
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <div class=""app>
+
+            <aside class="sidebar">
+                <div class="brand">study<br> tracker</div>
+                <nav class="nav" aria-label="Main">
+                    <a class="nav-link" href="#today" data-view="today">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5" class="fill"/>
+                        </svg>
+                        Today
+                    </a>
+                    <a class="nav-link" href="#history" data-view="history">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>
+                        </svg>
+                        History
+                    </a>
+                </nav>
+                <p class="sidebar-date" id="study-day"></p>
+            </aside>
+            <main class="main">
+                <p id="load-error" class="bannder" role="alert" hidden></p>
+
+                <!--   TODAY   -->
+                <section id="view-today" class="view" aria-labelledby="greeting">
+                    <header class="hero">
+                        <h1 id="greeting">Hello</h1>
+                        <p id="greeting-sub" class="hero-sub"></p>
+                    </header>
+                    
+                    <div class="today-grid">
+                        <div class="stack">
+
+                            <article class="card card-streak" aria-labelledby="streak-title">
+                                <svg class="deco deco-flame" viewBox="0 0 120 150" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M60 6 C66 34 104 52 104 96 C104 126 84 146 60 146 C36 146 16 126 16 96 C16 72 30 62 38 44 C44 56 50 62 56 62 C54 42 54 24 60 6 Z M60 78 C64 94 80 102 80 118 C80 130 71 138 60 138 C49 138 40 130 40 118 C40 104 52 98 60 78 Z"/>
+                                </svg>
+                                <h2 id="streak-title" class="card-title">Study streak</h2>
+                                <p class="streak-figure">
+                                    <span id="streak-count" class="streak-count">0</span>
+                                    <span id="streak-unit" class="streak-unit">days</span>
+                                </p>
+                                <p id="streak-note" class="card-note"></p>
+                                <p id="best-streak" class="card-meta"></p>
+                            </article>
+
+                            <div class="pair">
+                                <article class="card card-goal" aria-labelledby="goal-title">
+                                    <svg class="deco deco-rings" viewBox="0 0 160 160" aria-hidden="true">
+                                        <circle cx="80" r="30"/><circle cx="80" cy="80" r="55"/>
+                                    </svg>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>
