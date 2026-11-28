@@ -84,15 +84,27 @@
                         </div>
 
                         <div class="rail">
+                            <section id="timer-card" class="card card-timer" aria-labelledby="timer-title">
+                                <h2 id="timer-title" class="card-title">
+                                    <span class="live-dot" aria-hidden="true"></span>Focus timer
+                                </h2>
+                                <p id="timer-clock" class="timer-clock" aria-hidden="true">0:00</p>
+                                <p id="timer-note" class="card-note">Start it when you sit down to study.</p>
+                                <div class="timer-actions">
+                                    <button id="timer-start" class="btn-pink" type="button">Start timer</button>
+                                    <button id="timer-stop" class="btn-pink" type="button" hidden>Stop and save</button>
+                                    <button id="timer-discard" class="btn-ghost" type="button" hidden>Discard</button>
+                                </div>
+                            </section>
+                            
                             <form id="log-form" class="card card-form" novalidate>
                                 <h2 class="card-title">Log study time</h2>
 
-                                <fieldset class="field">
+                                <fieldset id="log-picker" class="field picker">
                                     <legend>Subject</legend>
-                                    <div id="chips" class="chips"></div>
-                                    <div id="new-subject" class="new-subject" hidden>
-                                        <label class="sr-only" for="new-subject-name">New subject name</label>
-                                        <input id="new-subject-name" class="input" type="text" maxlength="60" autocomplete="off" placeholder="New subject name">
+                                    <div class="chips"></div>
+                                    <div class="new-subject" hidden>
+                                        <input class="input new-name" type="text" maxlength="60" autocomplete="off" placeholder="New subject name" aria-label="New subject name">
                                     </div>
                                 </fieldset>
 
@@ -119,9 +131,9 @@
                                         <input id="day" class="input" type="date">
                                     </div>
                                 </details>
-
+                                
                                 <p id="form-error" class="form-error" role="alert"></p>
-                                <button id="submit" class="btn-primary" type="submit">Log session</button>
+                                <button id="submit" class="btn-primary" type="submit">log session</button>
                             </form>
 
                             <section class="card card-today" aria-labelledby="today-title">
@@ -132,18 +144,50 @@
                         </div>
                     </div>
                 </section>
-                
-                <!-----History----->
+
+                <!----History------>
                 <section id="view-history" class="view" aria-labelledby="history-title" hidden>
                     <header class="hero">
                         <h1 id="history-title">History</h1>
                         <p id="history-sub" class="hero-sub"></p>
                     </header>
                     <div id="history-list" class="history"></div>
-                    <p id="history-empty" class="card-note" hidden>No session yet. Log one from the Today screen.</p>
+                    <p id="history-empty" class="card-note" hidden>No sessions yet. Log one from the Today screen.</p>
                 </section>
             </main>
         </div>
+        
+        <dialog id="stop-dialog" class="dialog" aria-labelledby="stop-title">
+            <form id="stop-form" novalidate>
+                <h2 id="stop-title" class="dialog-title">Save this session</h2>
+                <p id="stop-summary" class="card-note"></p>
+                <p id="stop-warning" class="dialog-warning" hidden></p>
+
+                <fieldset id="stop-picker" class="field picker">
+                    <legend>Subject</legend>
+                    <div class="chips"></div>
+                    <div class="new-subject" hidden>
+                        <input class="input new-name" type="text" maxlength="60" autocomplete="off" placeholder="New subject name" aria-label="New subject name">
+                    </div>
+                </fieldset>
+
+                <div class="field">
+                    <label for="stop-minutes">Minutes</label>
+                    <input id="stop-minutes" class="input" type="number" inputmode="numeric" min="1" max="1440">
+                </div>
+
+                <div class="field">
+                    <label for="stop-note">Note <span class="optional">(optional)</span></label>
+                    <input id="stop-note" class="input" type="text" maxlength="500" autocomplete="off" placeholder="What did you work on?">
+                </div>
+                
+                <p id="stop-error" class="form-error" role="alert"></p>
+                <div class="dialog-actions">
+                    <button id="stop-save" class="btn-primary" type="submit">Save session</button>
+                    <button id="stop-cancel" class="btn-secondary" type="button">Keep timing</button>
+                </div>
+            </form>
+        </dialog>
         <div id="toast" class="toast" role="status" aria-live="polite"></div>
         <script src="/static/app.js" defer></script>
     </body>
